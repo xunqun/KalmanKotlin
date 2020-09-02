@@ -6,16 +6,19 @@ package com.whiles.kalman
  * using the α-β filter.
  *
  * https://www.kalmanfilter.net/alphabeta.html
+ *
+ * @param alpha will be between 0 to 1
+ * @param beta will be between 0 to 1
  */
 class AlphaBetaFilter(valueGuess: Double, velocityGuess: Double, val alpha: Float, val beta: Float) {
-    var value = valueGuess
+    var range = valueGuess
     var velocity  = velocityGuess
 
     fun measure(z: Double, interval: Float): Double{
-        val shouldBe = value + velocity * interval
-        value = shouldBe + alpha * (z - shouldBe)
-        velocity = velocity + beta * (z - shouldBe) / interval
+        val prediction = range + velocity * interval
+        range = prediction + alpha * (z - prediction)
+        velocity += beta * (z - prediction) / interval
 
-        return value
+        return range
     }
 }
