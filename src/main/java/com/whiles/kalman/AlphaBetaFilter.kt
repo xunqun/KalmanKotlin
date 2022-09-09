@@ -1,7 +1,5 @@
 package com.whiles.kalman
 
-import android.util.Log
-
 /**
  * This is used to examine a dynamic system that changes its state over the time.
  * For example, we are going to track the constant velocity aircraft in one dimension
@@ -26,7 +24,11 @@ class AlphaBetaFilter(
         val prediction = range + velocity * interval
         range = prediction + alpha * (z - prediction)
         velocity += beta * (z - prediction) / interval
-//        Log.d("AlphaBetaFilter", "measure: z=${String.format("%.1f", z)}, interval=${String.format("%.1f", interval)}, estimate=${String.format("%.1f", range)}")
         return range
+    }
+
+    fun reset(valueGuess: Double, velocityGuess: Double) {
+        range = valueGuess
+        velocity = velocityGuess
     }
 }
